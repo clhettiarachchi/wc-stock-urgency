@@ -14,6 +14,22 @@ class WC_Urgency_Frontend
     {
         global $product;
 
+        // Don't show notice if stock management is disabled on this product.
+        if (! $product->managing_stock()) {
+            return;
+        }
+
+        // Don't show notice if product is out of stock — WC handles that message.
+        if (! $product->is_in_stock()) {
+            return;
+        }
+
+        // Don't show notice on variable product parent — variations manage their own stock.
+        if ($product->is_type('variable')) {
+            return;
+        }
+
+
         $stock_qty = $product->get_stock_quantity();
         $status = $this->get_urgency_status($stock_qty);
 
