@@ -34,6 +34,8 @@ function wc_urgency_init()
         return;
     }
 
+    add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'wc_urgency_action_links');
+
     require_once WC_URGENCY_PATH . 'includes/class-frontend.php';
     require_once WC_URGENCY_PATH . 'includes/class-admin.php';
 
@@ -58,4 +60,11 @@ function wc_urgency_missing_wc_notice()
         </p>
     </div>
 <?php
+}
+
+function wc_urgency_action_links($links)
+{
+    $settings_link = '<a href="' . esc_url(admin_url('admin.php?page=wc-stock-urgency')) . '">' . esc_html__('Settings', 'wc-stock-urgency') . '</a>';
+    array_unshift($links, $settings_link);
+    return $links;
 }
