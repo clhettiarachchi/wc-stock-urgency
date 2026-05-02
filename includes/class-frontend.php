@@ -38,8 +38,8 @@ class WC_Urgency_Frontend
      */
     private function get_urgency_status($qty)
     {
-        $low_threshold      = 10;
-        $critical_threshold = 3;
+        $low_threshold      = get_option('wc_urgency_low_threshold', 10);
+        $critical_threshold = get_option('wc_urgency_critical_threshold', 3);
 
         if ($qty <= $critical_threshold) {
             return 'critical';
