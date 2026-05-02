@@ -7,6 +7,7 @@ class WC_Urgency_Frontend
     public function __construct()
     {
         add_action('woocommerce_single_product_summary', array($this, 'render_notice'), 25);
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
     }
 
     public function render_notice()
@@ -24,7 +25,8 @@ class WC_Urgency_Frontend
         );
 
         echo '<div class="wc-urgency-notice wc-urgency-notice--' . esc_attr($status) . '">';
-        echo '<p>' . esc_html($messages[$status]) . '</p>';
+        echo '<span class="wc-urgency-notice__icon"></span>';
+        echo '<p class="wc-urgency-notice__text">' . esc_html($messages[$status]) . '</p>';
         echo '</div>';
     }
 
@@ -46,5 +48,20 @@ class WC_Urgency_Frontend
         }
 
         return 'high';
+    }
+
+    public function enqueue_styles()
+    {
+        // Only load on single product pages.
+        if (! is_product()) {
+            return;
+        }
+
+        wp_enqueue_style(
+            'wc-urgency-frontend',
+            WC_URGENCY_URL . 'assets/css/frontend.css',
+            array(),
+            WC_URGENCY_VERSION
+        );
     }
 }

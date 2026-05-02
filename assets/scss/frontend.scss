@@ -1,0 +1,57 @@
+// Base block
+.wc-urgency-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  border: 1px solid transparent;
+
+  // Colour dot
+  &__icon {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  // Message text
+  &__text {
+    margin: 0;
+  }
+
+  // ---- Modifiers ----
+
+  &--high {
+    background-color: #f0faf0;
+    border-color: #4caf50;
+    color: #2e7d32;
+
+    .wc-urgency-notice__icon {
+      background-color: #4caf50;
+    }
+  }
+
+  &--low {
+    background-color: #fffbf0;
+    border-color: #ff9800;
+    color: #e65100;
+
+    .wc-urgency-notice__icon {
+      background-color: #ff9800;
+    }
+  }
+
+  &--critical {
+    background-color: #fff5f5;
+    border-color: #f44336;
+    color: #c62828;
+
+    .wc-urgency-notice__icon {
+      background-color: #f44336;
+    }
+  }
+}
