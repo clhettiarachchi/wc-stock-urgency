@@ -35,8 +35,10 @@ function wc_urgency_init()
     }
 
     require_once WC_URGENCY_PATH . 'includes/class-frontend.php';
+    require_once WC_URGENCY_PATH . 'includes/class-admin.php';
 
     new WC_Urgency_Frontend();
+    new WC_Urgency_Admin();
 }
 
 function wc_urgency_missing_wc_notice()
