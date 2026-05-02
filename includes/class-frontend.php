@@ -1,0 +1,50 @@
+<?php
+defined('ABSPATH') || exit;
+
+class WC_Urgency_Frontend
+{
+
+    public function __construct()
+    {
+        add_action('woocommerce_single_product_summary', array($this, 'render_notice'), 25);
+    }
+
+    public function render_notice()
+    {
+        global $product;
+
+        $stock_qty = $product->get_stock_quantity();
+        $status = $this->get_urgency_status($stock_qty);
+
+        // Map each status to its display message.
+        $messages = array(
+            'high'     => 'In stock and ready to ship',
+            'low'      => 'Only ' . $stock_qty . ' left in stock',
+            'critical' => 'Last ' . $stock_qty . ' remaining — order soon!',
+        );
+
+        echo '<div class="wc-urgency-notice wc-urgency-notice--' . esc_attr($status) . '">';
+        echo '<p>' . esc_html($messages[$status]) . '</p>';
+        echo '</div>';
+    }
+
+    /**
+     * Returns urgency status based on stock quantity.
+     *
+     * @param int $qty Current stock quantity.
+     * @return string 'high' | 'low' | 'critical'
+     */
+    private function get_urgency_status($qty)
+    {
+        $low_threshold      = 10;
+        $critical_threshold = 3;
+
+        if ($qty <= $critical_threshold) {
+            return 'critical';
+        } else if ($qty <= $low_threshold) {
+            return 'low';
+        }
+
+        return 'high';
+    }
+}
